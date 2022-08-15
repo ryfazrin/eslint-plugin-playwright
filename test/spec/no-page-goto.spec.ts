@@ -10,11 +10,17 @@ const valid = wrapInTest;
 
 runRuleTester('no-page-goto', rule, {
   invalid: [
-    invalid('await page.goto()'),
-    invalid('await page.goto()'),
+    invalid(`
+    await page.goto()
+    await page.goto()
+    await page.goto()
+    `),
   ],
   valid: [
-    valid('await page.goto()'),
+    valid(`
+    await page.goto()
+    // await page.goto()
+    `),
     valid('await page.click()'),
     valid('await expect(page).toBePaused()'),
   ],

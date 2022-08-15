@@ -5,44 +5,57 @@ import { isObject, isCalleeProperty } from '../utils/ast';
 export default {
   create(context) {
     const { options } = context;
-    const max: number = options[0]?.max ?? 2;
+    const max: number = options[0]?.max ?? 1;
     const gotoCallbackStack: number[] = [];
 
-    function pushGotoCallback(node: CallExpression) {
-      if (!(isObject(node, 'page') && isCalleeProperty(node, 'goto'))) {
-        return;
-      }
+    // function pushGotoCallback(node: CallExpression) {
+    //   if ((isObject(node, 'page') && isCalleeProperty(node, 'goto'))) {
+    //     // return;
+    //     context.report({
+    //       node,
+    //       messageId: 'noPageGoto'
+    //     });
+    //   }
 
-      gotoCallbackStack.push(0);
+    //   // gotoCallbackStack.push(0);
 
-      if (gotoCallbackStack.length > max) {
-        context.report({
-          node,
-          messageId: 'noPageGoto'
-        });
-      }
-    }
+    //   // if (gotoCallbackStack.length > max) {
+    //   //   context.report({
+    //   //     node,
+    //   //     messageId: 'noPageGoto'
+    //   //   });
+    //   // }
 
-    function popGotoCallback(node: CallExpression) {
-      if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
-        gotoCallbackStack.pop();
-      }
-    }
+    //   gotoCallbackStack.push(0);
+    //   console.log('gotoCallbackStack:', gotoCallbackStack);
+    // }
 
-    return {
-      CallExpression: pushGotoCallback,
-      'CallExpression:exit': popGotoCallback,
-    };
+    // function popGotoCallback(node: CallExpression) {
+    //   if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
+    //     gotoCallbackStack.pop();
+    //   }
+    // }
 
     // return {
-    //   CallExpression(node) {
-    //     if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
-    //     // if(gotoCallbackStack.length > max) {
-    //       console.log('Ryan Node:', node);
-    //       context.report({ messageId: 'noPageGoto', node });
-    //     }
-    //   },
+    //   CallExpression: pushGotoCallback,
+    //   'CallExpression:exit': popGotoCallback,
     // };
+
+    // hampir benar
+    // tinggal tambahkan CallExpression:exit
+    return {
+      CallExpression(node) {
+        if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
+        // if(gotoCallbackStack.length > max) {
+
+          gotoCallbackStack.push(0);
+          // console.log('Ryan Node:', context);
+          if (gotoCallbackStack.length > max) {
+            context.report({ messageId: 'noPageGoto', node });
+          }
+        }
+      },
+    };
   },
   meta: {
     docs: {
@@ -51,7 +64,7 @@ export default {
       recommended: true,
     },
     messages: {
-      noPageGoto: 'COBA DESKRIPSI Unexpected use of page.goto().',
+      noPageGoto: 'COBA DESKRIPSI Limit use of page.goto().',
     },
     type: 'problem',
   },
