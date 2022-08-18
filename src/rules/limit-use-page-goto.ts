@@ -1,31 +1,37 @@
 import { Rule } from 'eslint';
+import { CallExpression } from 'estree';
 import { isObject, isCalleeProperty } from '../utils/ast';
 
 export default {
   create(context) {
     const max: number = 1;
-    const gotoCallbackStack: number[] = [];
+    const pageGotoCallbackStack: number[] = [];
+
+    function isPageGotoCall(node: CallExpression) {
+      return isObject(node, 'page') && isCalleeProperty(node, 'goto');
+    }
+
+    function pushPageGotoCallback(node: CallExpression) {
+      if (!isPageGotoCall(node)) { 
+        return;
+      }
+
+      pageGotoCallbackStack.push(0);
+
+      if (pageGotoCallbackStack.length > max) {
+        context.report({
+          node,
+          messageId: 'limitUsePageGoto',
+          data: {
+            order: pageGotoCallbackStack.length.toString(),
+            max: max.toString(),
+          },
+        });
+      }
+    }
     
     return {
-      CallExpression: (node) => {
-        if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
-          
-          gotoCallbackStack.push(0);
-
-          if (gotoCallbackStack.length > max) {
-            const range = node.callee;
-
-            context.report({
-              node,
-              messageId: 'limitUsePageGoto',
-              data: {
-                order: gotoCallbackStack.length.toString(),
-                max: max.toString(),
-              },
-            });
-          }
-        }
-      }
+      CallExpression: pushPageGotoCallback
     };
   },
   meta: {
