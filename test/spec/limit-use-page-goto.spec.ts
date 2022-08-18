@@ -1,14 +1,14 @@
 import { runRuleTester, wrapInTest } from '../utils/rule-tester';
-import rule from '../../src/rules/no-page-goto';
+import rule from '../../src/rules/limit-use-page-goto';
 
 const invalid = (code: string) => ({
   code: wrapInTest(code),
-  errors: [{ messageId: 'noPageGoto' }],
+  errors: [{ messageId: 'limitUsePageGoto' }],
 });
 
 const valid = wrapInTest;
 
-runRuleTester('no-page-goto', rule, {
+runRuleTester('Limit-use-page-goto', rule, {
   invalid: [
     invalid(`
     await page.goto()

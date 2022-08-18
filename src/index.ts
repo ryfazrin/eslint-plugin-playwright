@@ -8,7 +8,7 @@ import noWaitForTimeout from './rules/no-wait-for-timeout';
 import noForceOption from './rules/no-force-option';
 import maxNestedDescribe from './rules/max-nested-describe';
 import noConditionalInTest from './rules/no-conditional-in-test';
-import noPageGoto from './rules/no-page-goto';
+import limitUsePageGoto from './rules/limit-use-page-goto';
 
 export = {
   configs: {
@@ -29,7 +29,7 @@ export = {
         'playwright/no-force-option': 'warn',
         'playwright/max-nested-describe': 'warn',
         'playwright/no-conditional-in-test': 'warn',
-        'playwright/no-page-goto': 'warn',
+        'playwright/limit-use-page-goto': 'error',
       },
     },
     'jest-playwright': {
@@ -41,7 +41,7 @@ export = {
       rules: {
         'playwright/missing-playwright-await': 'error',
         'playwright/no-page-pause': 'warn',
-        'playwright/no-page-goto': 'warn',
+        'playwright/limit-use-page-goto': 'error',
         'jest/no-standalone-expect': [
           'error',
           {
@@ -77,6 +77,6 @@ export = {
     'no-force-option': noForceOption,
     'max-nested-describe': maxNestedDescribe,
     'no-conditional-in-test': noConditionalInTest,
-    'no-page-goto': noPageGoto,
+    'limit-use-page-goto': limitUsePageGoto,
   },
 };
