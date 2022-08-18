@@ -3,8 +3,7 @@ import { isObject, isCalleeProperty } from '../utils/ast';
 
 export default {
   create(context) {
-    const { options } = context;
-    const max: number = options[0]?.max ?? 1;
+    const max: number = 1;
     const gotoCallbackStack: number[] = [];
     
     return {
