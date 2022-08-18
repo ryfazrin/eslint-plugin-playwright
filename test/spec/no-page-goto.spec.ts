@@ -10,18 +10,41 @@ const valid = wrapInTest;
 
 runRuleTester('no-page-goto', rule, {
   invalid: [
+    // harusnya invalid, tapi kok malah error yak??
     invalid(`
     await page.goto()
     await page.goto()
     await page.goto()
+    await page.click()
     `),
   ],
   valid: [
     valid(`
     await page.goto()
-    // await page.goto()
     `),
-    valid('await page.click()'),
+    // pasti error
+    valid(`
+    await page.goto()
+    await page.goto()
+    await page.goto()
+    await page.click()
+    `),
+    // valid(`
+    // await page.goto()
+    // await page.goto()
+    // `),
+    // valid(`
+    // await page.goto()
+    // `),
+    // valid(`
+    // await page.goto()
+    // await page.goto()
+    // await page.goto()
+    // `),
+    valid(`
+    await page.goto()
+    await page.click()
+    `),
     valid('await expect(page).toBePaused()'),
   ],
 });

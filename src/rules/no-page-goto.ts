@@ -5,7 +5,8 @@ import { isObject, isCalleeProperty } from '../utils/ast';
 export default {
   create(context) {
     const { options } = context;
-    const max: number = options[0]?.max ?? 1;
+    // const max: number = options[0]?.max ?? 1;
+    const max: number = 1;
     const gotoCallbackStack: number[] = [];
 
     // function pushGotoCallback(node: CallExpression) {
@@ -41,20 +42,30 @@ export default {
     //   'CallExpression:exit': popGotoCallback,
     // };
 
-    // hampir benar
-    // tinggal tambahkan CallExpression:exit
     return {
-      CallExpression(node) {
+      CallExpression: (node) => {
         if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
         // if(gotoCallbackStack.length > max) {
 
           gotoCallbackStack.push(0);
-          // console.log('Ryan Node:', context);
+          // console.log(`Ryan Node ${gotoCallbackStack.length}:`, node);
           if (gotoCallbackStack.length > max) {
-            context.report({ messageId: 'noPageGoto', node });
+            context.report({ 
+              node,
+              messageId: 'noPageGoto',
+              data: {
+                order: gotoCallbackStack.length.toString(),
+                max: max.toString(),
+              },
+            });
           }
         }
       },
+      // 'CallExpression:exit': (node: CallExpression) => {
+      //   if (isObject(node, 'page') && isCalleeProperty(node, 'goto')) {
+      //     gotoCallbackStack.pop();
+      //   }
+      // },
     };
   },
   meta: {
@@ -64,7 +75,7 @@ export default {
       recommended: true,
     },
     messages: {
-      noPageGoto: 'COBA DESKRIPSI Limit use of page.goto().',
+      noPageGoto: 'COBA DESKRIPSI Limit ({{ max }}) use of page.goto() of ({{ order }}).',
     },
     type: 'problem',
   },
