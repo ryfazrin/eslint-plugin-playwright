@@ -30,7 +30,7 @@ export default {
   meta: {
     docs: {
       category: 'Possible Errors',
-      description: 'Prevent usage of page.goto()',
+      description: 'Limit use of page.goto()',
       recommended: true,
     },
     messages: {
