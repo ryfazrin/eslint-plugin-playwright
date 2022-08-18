@@ -51,6 +51,7 @@ command line option.\
 
 |  ✔  | 🔧  | 💡  | Rule                                                                                                                                          | Description                                       |
 | :-: | :-: | :-: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+|  ✔  |     |     | [limit-use-page-goto](https://github.com/ryfazrin/eslint-plugin-playwright/blob/limit-use-page.goto/docs/rules/limit-use-page-goto.md)           | Limit usage of page.goto() |
 |  ✔  |     |     | [max-nested-describe](https://github.com/playwright-community/eslint-plugin-playwright/tree/main/docs/rules/max-nested-describe.md)           | Enforces a maximum depth to nested describe calls |
 |  ✔  | 🔧  |     | [missing-playwright-await](https://github.com/playwright-community/eslint-plugin-playwright/tree/main/docs/rules/missing-playwright-await.md) | Enforce Playwright APIs to be awaited             |
 |  ✔  |     |     | [no-conditional-in-test](https://github.com/playwright-community/eslint-plugin-playwright/tree/main/docs/rules/no-conditional-in-test.md)     | Disallow conditional logic in tests               |
